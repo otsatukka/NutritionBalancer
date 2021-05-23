@@ -33,6 +33,15 @@ class Measurements():
         
     def measureHumidity(self):
         print("Humidity %.2f" %self.sht.humidity())
-
+    
+    def makeMeasurements(self):
+        humidity = measureHumidity()
+        airtemp = measureAirTemp()
+        watertemp = measureWaterTemp(self)
+        orp = measureORP(self)
+        ph = measurePH(self)
+        ec = measureEC(self)
+        return humidity, airtemp, watertemp, orp, ph, ec
+        
 meas = Measurements()
 meas.measureEC()
