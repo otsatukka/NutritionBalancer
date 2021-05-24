@@ -13,8 +13,19 @@ git clone https://github.com/u-fire/Isolated_ISE.git --depth=1
 ## Install dependencies
 pip3 install smbus
 
+## activate i2c bus on rasperry
+It works, after enabling I2c interface with the Raspberry Pi config utility.
 
-Raspberry Pi
+Open i2c interface
+
+sudo raspi-config
+Select Interfacing options->I2C choose and hit Enter, then go to Finish and reboot.
+
+
+## install smbus for python
+https://ozzmaker.com/i2c/
+
+## Raspberry Pi
 Before you can run anything, you will need to enable software I2C; the Pi's hardware implementation has a clock-stretching bug that will prevent it from working with the probe (or any other device that uses clock-stretching).
 
 sudo nano /boot/config.txt and scroll to the bottom
