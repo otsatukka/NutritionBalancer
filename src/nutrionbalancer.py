@@ -6,7 +6,7 @@ class NutritionBalancer():
     hydroponictankvolume = 10 # in liters
     ecsolutionconcentration = 3 # salinity in mV
     targetPh = 7.0
-    targetEc = 2.0
+    targetEc = 0.5
     
     def __init__(self):
         self.dispenser = Dispenser()
@@ -15,7 +15,7 @@ class NutritionBalancer():
     def control(self):
         fillPool()
         nutrientNeedEc, phCalibSolutionNeeded = determineNutrientNeed()
-        self.dispenser.dispenseECML(nutrientNeedEc)
+        self.dispenser.dispenseECML(nutrientNeedEc*1000)
         
         
     def fillPool(self):
