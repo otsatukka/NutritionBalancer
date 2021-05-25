@@ -4,9 +4,9 @@ from makemeasurements import Measurements
 class NutritionBalancer():
     poolvolume = 1.0 # in liters
     hydroponictankvolume = 10 # in liters
-    ecsolutionconcentration = 3 # salinity in mV
+    ecsolutionconcentration = 50 # salinity in mS
     targetPh = 7.0
-    targetEc = 0.5
+    targetEc = 0.7
     
     def __init__(self):
         self.dispenser = Dispenser()
@@ -14,21 +14,32 @@ class NutritionBalancer():
     
     def control(self):
         fillPool()
-        nutrientNeedEc, phCalibSolutionNeeded = determineNutrientNeed()
-        self.dispenser.dispenseECML(nutrientNeedEc*1000)
-        
-        
+        ecNutrientNeeded, phCalibSolutionNeeded = determineNutrientNeed()
+        self.dispenser.dispenseECML(ecNutrientNeeded*1000)
+        dispensepool()
+                
     def fillPool(self):
-        self.dispenser.dispensePoolLiters(poolvolume*1.5) # Over fill
+        self.dispenser.dispensePoolLiters(self.poolvolume*1.5) # Over fill
+        
+    def dispensepool(self):
+        self.dispenser.dispensePoolLiters(self.poolvolume*2) # Over empty
         
     def determineNutrientNeed(self):
-        nutrientNeedEc = 0
+        ecNutrientNeeded = 0
         phCalibSolutionNeeded = 0 
-        humidity, airtemp, watertemp, orp, ph, ec = measurer.makeMeasurements()
-        if (ec < targetEc):
-            volumeFactor = hydroponictankvolume / poolvolume
-            volumetopool = poolvolume / ( ( ecsolutionconcentration - targetEc ) / ( targetEc - ec ) )
-            nutrientNeedEc = volumetopool*volumeFactor
-        if (ph < targetPh):
+        humidity, airtemp, watertemp, orp, ph, ec = self.measurer.makeMeasurements()
+        if (ec < self.targetEc):
+            volumeFactor = self.hydroponictankvolume / self.poolvolume
+            volumetopool = self.poolvolume / ( ( self.ecsolutionconcentration - self.targetEc ) / ( self.targetEc - ec ) )
+            ecNutrientNeeded = volumetopool*volumeFactor
+        if (ph < self.targetPh):
             print("Calculate PH balancing")
-        return nutrientNeedEc,phCalibSolutionNeeded
+        return ecNutrientNeeded, phCalibSolutionNeeded
+    
+    def stopPumps(self):
+        self.dispenser.stop()
+    def getEC(self):
+        return self.measurer.measureEC()
+#nb = NutritionBalancer()
+#ecNutrientNeeded, phCalibSolutionNeeded = nb.determineNutrientNeed()
+#print("EC solution needed %.2f"%(ecNutrientNeeded*1000))

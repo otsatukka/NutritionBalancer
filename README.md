@@ -35,6 +35,8 @@ Reboot
 
 dtoverlay=i2c-gpio,i2c_gpio_sda=2,i2c_gpio_scl=3
 
+## Bluetooth access
+https://blog.iamlevi.net/2017/05/control-raspberry-pi-android-bluetooth/
 
 ## For choosing pins
 https://docs.microsoft.com/en-us/windows/iot-core/media/pinmappingsrpi/rp2_pinout.png

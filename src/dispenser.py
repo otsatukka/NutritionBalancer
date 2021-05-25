@@ -7,12 +7,21 @@ class Dispenser():
         self.pooldispenser = Motor(17, 27,pwm=False)
         self.ecdispenser = Motor(22, 10,pwm=False)
         
-    def dispenseECML(amounttodispense)
+    def dispenseECML(self, amounttodispense):
         self.ecdispenser.forward()
-        sleep(60*(amounttodispense / nutrientdispensercapacity))
+        time.sleep(60*(amounttodispense / self.nutrientdispensercapacity))
+        self.ecdispenser.stop()
+    
+    def stop(self):
+        self.pooldispenser.stop()
         self.ecdispenser.stop()
         
-    def dispensePoolLiters(amounttodispense)
+    def dispensePoolLiters(self, amounttodispense):
         self.pooldispenser.forward()
-        sleep(60 *(amounttodispense / pooldispensercapacity))
+        time.sleep(60 *(amounttodispense / self.pooldispensercapacity))
         self.pooldispenser.stop()
+
+dispenser = Dispenser()
+dispenser.stop()
+#dispenser.dispensePoolLiters(0.1)
+#dispenser.dispenseECML(2)
