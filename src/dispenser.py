@@ -2,7 +2,7 @@ from gpiozero import Motor
 from gpiozero import PWMOutputDevice
 import time
 class Dispenser():
-    nutrientdispensercapacity = 39 #ml in min
+    nutrientdispensercapacity = 47# 47 based on measurement, 39 #ml in min according to manufacturer
     pooldispensercapacity = 1.0 #l in min
     def __init__(self):
         self.pooldispenser = Motor(17, 27,pwm=True)
@@ -19,14 +19,14 @@ class Dispenser():
         self.ecdispenser.stop()
         
     def dispensePoolLiters(self, amounttodispense):
-        self.pooldispenser.forward()
         duration = (60 *(amounttodispense / self.pooldispensercapacity))
         self.pooldispenserSpeed.on()#blink(on_time=0, off_time=0, fade_in_time=0.5, fade_out_time=0.5, n=int(duration), background=False)
-        self.pooldispenserSpeed.value = 0.4
+        self.pooldispenserSpeed.value = 0.25
+        self.pooldispenser.forward()
         time.sleep(duration)
         self.pooldispenser.stop()
 
 dispenser = Dispenser()
 #dispenser.stop()
-dispenser.dispensePoolLiters(0.1)
-#dispenser.dispenseECML(2)
+#dispenser.dispensePoolLiters(0.1)
+dispenser.dispenseECML(20)

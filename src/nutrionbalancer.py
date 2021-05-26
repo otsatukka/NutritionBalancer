@@ -22,7 +22,7 @@ class NutritionBalancer():
         self.dispenser.dispensePoolLiters(self.poolvolume*1.5) # Over fill
         
     def dispensepool(self):
-        self.dispenser.dispensePoolLiters(self.poolvolume*2) # Over empty
+        self.dispenser.dispensePoolLiters(self.poolvolume*2.0) # Over empty
         
     def determineNutrientNeed(self):
         ecNutrientNeeded = 0

@@ -42,3 +42,4 @@ sudo systemctl status raspibtsrv.service
 
 ## For choosing pins
 https://docs.microsoft.com/en-us/windows/iot-core/media/pinmappingsrpi/rp2_pinout.png
+

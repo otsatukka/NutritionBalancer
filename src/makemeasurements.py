@@ -49,5 +49,5 @@ class Measurements():
         ec = self.measureEC()
         return humidity, airtemp, watertemp, orp, ph, ec
         
-#meas = Measurements()
-#meas.makeMeasurements()
+meas = Measurements()
+meas.makeMeasurements()
