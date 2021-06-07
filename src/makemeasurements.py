@@ -18,9 +18,12 @@ class Measurements():
         return self.ph.pH
         
     def measureEC(self):
-        self.ec.measureEC()
-        print("EC mS: " + str(self.ec.mS))
-        return self.ec.mS
+        self.ec.measureEC(temp = self.measureWaterTemp()) # dump measurement since first one is usually off
+        avg = self.ec.measureEC(temp = self.measureWaterTemp())
+        avg+= self.ec.measureEC(temp = self.measureWaterTemp())
+        avg/=2
+        print("EC mS: " + str(avg))
+        return avg
     
     def measureORP(self):
         self.orp.measureORP()
@@ -49,5 +52,3 @@ class Measurements():
         ec = self.measureEC()
         return humidity, airtemp, watertemp, orp, ph, ec
         
-meas = Measurements()
-meas.makeMeasurements()
