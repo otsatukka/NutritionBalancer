@@ -7,17 +7,24 @@ class Dispenser():
     def __init__(self):
         self.pooldispenser = Motor(17, 27,pwm=True)
         self.pooldispenserSpeed = PWMOutputDevice(13, active_high=True, initial_value=0, frequency=100, pin_factory=None)
-        self.ecdispenser = Motor(22, 10,pwm=False)
+        self.firstdispenser = Motor(9, 11,pwm=False)
+        self.seconddispenser = Motor(22, 10,pwm=False)
         
-    def dispenseECML(self, amounttodispense):
-        self.ecdispenser.forward()
-        print("Dispensing ec liquid %.2f" %amounttodispense)
+    def dispenseFirstLiquid(self, amounttodispense):
+        self.firstdispenser.forward()
+        print("Dispensing first liquid %.2f" %amounttodispense)
         time.sleep(60*(amounttodispense / self.nutrientdispensercapacity))
-        self.ecdispenser.stop()
+        self.firstdispenser.stop()
+        
+    def dispenseSecondLiquid(self, amounttodispense):
+        self.seconddispenser.forward()
+        print("Dispensing second liquid %.2f" %amounttodispense)
+        time.sleep(60*(amounttodispense / self.nutrientdispensercapacity))
+        self.seconddispenser.stop()
     
     def stop(self):
         self.pooldispenser.stop()
-        self.ecdispenser.stop()
+        self.firstdispenser.stop()
         
     def dispensePoolLiters(self, amounttodispense):
         duration = (60 *(amounttodispense / self.pooldispensercapacity))
