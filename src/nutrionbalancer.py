@@ -34,21 +34,32 @@ class NutritionBalancer():
         return ecNutrientNeeded, phCalibSolutionNeeded
     
     def control(self):
-        self.dispenser.dispensePoolLiters(self.poolvolume * 1.5)
+        self.dispenser.dispensePoolLiters(self.poolvolume * 4.5)
         ecNutrientNeeded, phCalibSolutionNeeded = self.determineNutrientNeed()
         
         # dispense and mix the first liquid
         self.dispenser.dispenseFirstLiquid(ecNutrientNeeded * 1000 / 2)
         
+        time.sleep(10)# allow the nutrient to disperse in the liquid
         if (ecNutrientNeeded > 0 or phCalibSolutionNeeded > 0): 
-            self.dispenser.dispensePoolLiters(self.poolvolume * 2.0) # Over empty
+            self.dispenser.dispensePoolLiters(self.poolvolume * 4.5) # Over empty
+        
+        # sanity check
+        ec = self.getEC()
+        if (ec < self.targetEc):   
+            # dispense and mix the second liquid
+            self.dispenser.dispenseSecondLiquid(ecNutrientNeeded * 1000 / 2)
+            time.sleep(10)# allow the nutrient to disperse in the liquid
+            if (ecNutrientNeeded > 0 or phCalibSolutionNeeded > 0): 
+                self.dispenser.dispensePoolLiters(self.poolvolume * 4.5) # Over empty
             
-        # dispense and mix the second liquid
-        self.dispenser.dispenseSecondLiquid(ecNutrientNeeded * 1000 / 2)
-        
-        if (ecNutrientNeeded > 0 or phCalibSolutionNeeded > 0): 
-            self.dispenser.dispensePoolLiters(self.poolvolume * 2.0) # Over empty
-        
+            # sanity check
+            ec = self.getEC()
+            if (ec > (self.targetEc+0.3)):
+                return "Ec (%.2f) more than 0.3 higher than target (%.2f) after second nutrient. Maybe tank pump did not pump" %(ec,self.targetEc)
+        else:
+            return "Ec too high after first nutrient. Maybe tank pump did not pump"
+        return "Control succesfull, pumped %0.2f ml of nutrients" %(ecNutrientNeeded * 1000 / 2)
     def stopPumps(self):
         self.dispenser.stop()
     def getOrp(self):

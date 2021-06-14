@@ -5,7 +5,7 @@ class Dispenser():
     nutrientdispensercapacity = 47# 47 based on measurement, 39 #ml in min according to manufacturer
     pooldispensercapacity = 1.5 #l in min
     def __init__(self):
-        self.pooldispenser = Motor(17, 27,pwm=True)
+        self.pooldispenser = Motor(17, 27,pwm=False)
         self.pooldispenserSpeed = PWMOutputDevice(13, active_high=True, initial_value=0, frequency=100, pin_factory=None)
         self.firstdispenser = Motor(9, 11,pwm=False)
         self.seconddispenser = Motor(22, 10,pwm=False)
@@ -28,7 +28,7 @@ class Dispenser():
         
     def dispensePoolLiters(self, amounttodispense):
         duration = (60 *(amounttodispense / self.pooldispensercapacity))
-        self.pooldispenser.forward()
+        self.pooldispenser.forward(speed=1.0)
         self.pooldispenserSpeed.value = 1.0
         self.pooldispenserSpeed.on()#blink(on_time=duration, off_time=0, fade_in_time=0.5, fade_out_time=0.5, n=1, background=False)
         self.pooldispenserSpeed.value = 1.0
