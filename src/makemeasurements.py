@@ -12,7 +12,7 @@ class Measurements():
         
     def measurePH(self):
         self.ph.measurepH()
-        print("mV: " + str(self.ph.mV))
+        #print("mV: " + str(self.ph.mV))
         print("pH: " + str(self.ph.pH))
         print("pOH: " + str(self.ph.pOH))
         return self.ph.pH
@@ -27,8 +27,8 @@ class Measurements():
     
     def measureORP(self):
         self.orp.measureORP()
-        print("mV: " + str(self.orp.mV))
-        print("Eh: " + str(self.orp.Eh))
+        print("Orp mV: " + str(self.orp.mV))
+        #print("Eh: " + str(self.orp.Eh))
         return self.orp.mV
 
     def measureWaterTemp(self):

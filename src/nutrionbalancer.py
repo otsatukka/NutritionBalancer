@@ -59,7 +59,8 @@ class NutritionBalancer():
                 return "Ec (%.2f) more than 0.3 higher than target (%.2f) after second nutrient. Maybe tank pump did not pump" %(ec,self.targetEc)
         else:
             return "Ec too high after first nutrient. Maybe tank pump did not pump"
-        return "Control succesfull, pumped %0.2f ml of nutrients" %(ecNutrientNeeded * 1000 / 2)
+        pH = self.getPh()
+        return "Control succesfull, pumped %0.2f ml of nutrients, ec achieved %.2f, ph achieved %0.2f" %((ecNutrientNeeded * 1000 / 2), ec,ph)
     def stopPumps(self):
         self.dispenser.stop()
     def getOrp(self):
